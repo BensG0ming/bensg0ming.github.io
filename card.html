@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Nạp thẻ - IRON SMP Store</title>
+  <style>
+    body {
+      background: #121212;
+      color: white;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 40px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .form-box {
+      background: #222;
+      padding: 30px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 400px;
+    }
+    label, select, input {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+    }
+    input, select, button {
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      background: #333;
+      color: white;
+    }
+    button {
+      margin-top: 15px;
+      background-color: #00c6ff;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0099cc;
+    }
+    .status {
+      margin-top: 15px;
+      color: #00ff99;
+    }
+  </style>
+</head>
+<body>
+  <h1>Nạp thẻ cào</h1>
+  <div class="form-box">
+    <label for="type">Loại thẻ</label>
+    <select id="type">
+      <option>Viettel</option>
+      <option>Mobifone</option>
+      <option>Vinaphone</option>
+      <option>Garena</option>
+      <option>Zing</option>
+      <option>Vcoin</option>
+      <option>Scoin</option>
+    </select>
+
+    <label for="amount">Mệnh giá</label>
+    <select id="amount">
+      <option>10000</option>
+      <option>20000</option>
+      <option>50000</option>
+      <option>100000</option>
+      <option>200000</option>
+      <option>500000</option>
+    </select>
+
+    <label for="seri">Seri</label>
+    <input type="text" id="seri" placeholder="Nhập seri" />
+
+    <label for="code">Mã thẻ</label>
+    <input type="text" id="code" placeholder="Nhập mã thẻ" />
+
+    <button onclick="submitCard()">Gửi thẻ</button>
+    <div class="status" id="status"></div>
+  </div>
+
+  <script>
+    async function submitCard() {
+      const type = document.getElementById("type").value;
+      const amount = document.getElementById("amount").value;
+      const seri = document.getElementById("seri").value;
+      const code = document.getElementById("code").value;
+      const user = localStorage.getItem("user") || "Chưa đăng nhập";
+
+      if (!seri || !code) {
+        return alert("Vui lòng nhập đầy đủ thông tin thẻ");
+      }
+
+      const webhook = "YOUR_DISCORD_WEBHOOK_URL"; // Thay bằng webhook thật
+      const content = {
+        embeds: [
+          {
+            title: "🧾 Nạp thẻ mới",
+            color: 3447003,
+            fields: [
+              { name: "👤 Người dùng", value: user },
+              { name: "📱 Loại thẻ", value: type },
+              { name: "💵 Mệnh giá", value: amount + " VND" },
+              { name: "🔢 Seri", value: seri },
+              { name: "🔐 Mã thẻ", value: code },
+              { name: "✅ Trạng thái", value: "Chờ duyệt" }
+            ],
+            footer: { text: "IRON SMP Store - Web Auto" },
+            timestamp: new Date().toISOString()
+          }
+        ],
+        components: [
+          {
+            type: 1,
+            components: [
+              {
+                type: 2,
+                style: 3,
+                label: "Xác nhận cộng tiền",
+                custom_id: `xacnhan_card_${user}_${amount}`
+              }
+            ]
+          }
+        ]
+      };
+
+      await fetch(webhook, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(content)
+      });
+
+      document.getElementById("status").innerText = "✅ Đã gửi, vui lòng chờ admin duyệt.";
+    }
+  </script>
+</body>
+</html>
