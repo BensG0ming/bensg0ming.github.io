@@ -53,6 +53,9 @@
 <body>
   <h1>Nạp thẻ cào</h1>
   <div class="form-box">
+    <label for="discorduser">Tên Discord của bạn (VD: user#0001)</label>
+    <input type="text" id="discorduser" placeholder="Nhập tên Discord" />
+
     <label for="type">Loại thẻ</label>
     <select id="type">
       <option>Viettel</option>
@@ -85,21 +88,31 @@
   </div>
 
   <script>
+    window.onload = () => {
+      const savedUser = localStorage.getItem("user");
+      if (savedUser) {
+        document.getElementById("discorduser").value = savedUser;
+      }
+    };
+
     async function submitCard() {
       const type = document.getElementById("type").value;
       const amount = document.getElementById("amount").value;
       const seri = document.getElementById("seri").value;
       const code = document.getElementById("code").value;
-      const user = localStorage.getItem("user") || "Chưa đăng nhập";
+      const discorduser = document.getElementById("discorduser").value.trim();
 
-      if (!seri || !code) {
-        return alert("Vui lòng nhập đầy đủ thông tin thẻ");
+      if (!seri || !code || !discorduser) {
+        return alert("Vui lòng nhập đầy đủ thông tin");
       }
 
-      const webhook = "https://discord.com/api/webhooks/1394304266105131018/N7eTRSVT-C82bbqdGJl-bzo6q5spNYXL2kpBICTsZsP-vYdRRKkzhNkps4HI6b6hIfiA"; // Thay bằng webhook thật
+      localStorage.setItem("user", discorduser);
+      const user = discorduser;
 
-      const payload = {
-        content: "<@1317392633022255105>", // ✅ Ping thật
+      const webhook = "https://discord.com/api/webhooks/1394304266105131018/N7eTRSVT-C82bbqdGJl-bzo6q5spNYXL2kpBICTsZsP-vYdRRKkzhNkps4HI6b6hIfiA";
+
+      const content = {
+        content: "<@1317392633022255105>", // ping thật
         embeds: [
           {
             title: "🧾 Nạp thẻ mới",
@@ -112,7 +125,7 @@
               { name: "🔐 Mã thẻ", value: code },
               { name: "✅ Trạng thái", value: "Chờ duyệt" }
             ],
-            footer: { text: "Bens Store - Web Auto" },
+            footer: { text: "IRON SMP Store - Web Auto" },
             timestamp: new Date().toISOString()
           }
         ],
@@ -134,7 +147,7 @@
       await fetch(webhook, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(content)
       });
 
       document.getElementById("status").innerText = "✅ Đã gửi, vui lòng chờ admin duyệt.";
