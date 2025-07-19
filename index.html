@@ -3,167 +3,192 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BensGaming | Profile</title>
+  <title>Minecraft Store - Bán Acc 100k</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
     * {
-      box-sizing: border-box;
-    }
-    html, body {
       margin: 0;
       padding: 0;
-      width: 100%;
-      height: 100%;
-      font-family: 'Orbitron', sans-serif;
-      background: #0d0d1f;
-      color: #fff;
-      overflow: hidden;
+      box-sizing: border-box;
+      font-family: 'Rubik', sans-serif;
     }
-    body::before {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-image: url('https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif');
-      background-size: cover;
-      opacity: 0.02;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .profile-card {
-      position: relative;
-      z-index: 2;
-      width: 90%;
-      max-width: 960px;
-      margin: 50px auto;
-      background: rgba(0, 0, 0, 0.8);
-      border-radius: 16px;
-      display: flex;
-      padding: 30px;
-      box-shadow: 0 0 20px #00f0ff55;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .left {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      flex: 1;
-    }
-    .avatar {
-      width: 128px;
-      height: 128px;
-      border-radius: 50%;
-      border: 4px solid #ff0077;
-      object-fit: cover;
-      margin-bottom: 12px;
-    }
-    .name {
-      font-size: 1.8rem;
-      font-weight: bold;
-    }
-    .username {
-      font-size: 1rem;
-      color: #aaa;
-      margin-bottom: 10px;
-    }
-    .status {
-      background: #ff0033;
+    body {
+      background: linear-gradient(to right, #1f1c2c, #928dab);
       color: white;
-      padding: 6px 14px;
-      border-radius: 12px;
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      overflow-x: hidden;
     }
-    .status-dot {
-      width: 10px;
-      height: 10px;
-      background: red;
-      border-radius: 50%;
-    }
-    .desc {
-      font-size: 0.95rem;
-      margin-top: 12px;
-    }
-    .icons {
-      margin-top: 16px;
-      display: flex;
-      gap: 16px;
-    }
-    .icons a {
-      color: white;
-      font-size: 1.4rem;
-      transition: 0.3s;
-    }
-    .icons a:hover {
-      color: #0ff;
-    }
-    .right {
-      flex: 1;
-      padding-left: 30px;
-    }
-    .code-box {
-      background: #101020;
+    header {
+      background-color: rgba(0, 0, 0, 0.6);
       padding: 20px;
-      border-radius: 12px;
-      font-family: monospace;
-      font-size: 0.9rem;
-      color: #b5f1ff;
-      white-space: pre;
-      overflow-x: auto;
-      box-shadow: 0 0 12px #00ffff33;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: bold;
+      animation: fadeInDown 1s ease;
     }
-    iframe {
-      width: 0;
-      height: 0;
-      border: 0;
-    }
-    .lanyard {
+    .auth-container {
+      display: flex;
+      justify-content: center;
       margin-top: 20px;
     }
+    .auth-box {
+      background-color: #333;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    .auth-box input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: none;
+    }
+    .auth-box button {
+      background-color: #00c6ff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    .auth-box button:hover {
+      background-color: #0099cc;
+    }
+    .google-btn {
+      background-color: #db4437;
+    }
+    main {
+      padding: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background-color: #2d2d2d;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    .btn {
+      margin-top: 15px;
+      display: inline-block;
+      background: #00c6ff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: #007acc;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.4);
+      font-size: 0.9rem;
+    }
   </style>
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <div class="profile-card">
-    <div class="left">
-      <img class="avatar" src="./30a195e3-4fe2-42b2-9bd4-84e453d782d7.png" alt="avatar">
-      <div class="name">BensGaming</div>
-      <div class="username">benshuynh • bensdz</div>
-      <div class="status">
-        <span class="status-dot"></span>
-        Do Not Disturb
-      </div>
-      <div class="desc">Minecraft skidding enjoyer • tool abuser • UI enjoyer</div>
-      <div class="icons">
-        <a href="https://discord.com/users/1317392633022255105" target="_blank"><i class="fab fa-discord"></i></a>
-        <a href="https://www.youtube.com/@Bens_GM" target="_blank"><i class="fab fa-youtube"></i></a>
-        <a href="https://github.com/BensG0mingBensG0ming" target="_blank"><i class="fab fa-github"></i></a>
-      </div>
-      <div class="lanyard">
-        <a href="https://discord.com/users/1317392633022255105" target="_blank">
-          <img src="https://lanyard.cnrad.dev/api/1317392633022255105" alt="Discord Status">
-        </a>
-      </div>
-    </div>
-    <div class="right">
-      <div class="code-box">
-<code>const profile = {
-  aliases: ["benshuynh", "bensdz"],
-  status: "Do Not Disturb",
-  works: ["tooling", "skidding", "crash testing"],
-  location: "Vietnam",
-  interests: ["gaming", "modding", "skid UI"],
-  discord: {
-    id: "1317392633022255105"
-  }
-}</code>
+  <header>
+    Minecraft Account Store ✧ Acc 100K (Ban Hypixel, Không Cape)
+  </header>
+  <div class="auth-container">
+    <div class="auth-box">
+      <h3>Đăng ký / Đăng nhập</h3>
+      <input type="text" id="username" placeholder="Tên người dùng" />
+      <input type="password" id="password" placeholder="Mật khẩu" />
+      <div>
+        <button onclick="loginUser()">Đăng nhập</button>
+        <button onclick="registerUser()">Đăng ký</button>
+        <button class="google-btn" onclick="googleLogin()">Google</button>
       </div>
     </div>
   </div>
-  <iframe src="https://www.youtube.com/embed/arGKMdijQVU?autoplay=1&loop=1&playlist=arGKMdijQVU" allow="autoplay"></iframe>
+  <main>
+    <div class="card">
+      <h2>Account #1</h2>
+      <p>💸 Giá: 100.000 VND</p>
+      <p>🚫 Ban Hypixel</p>
+      <p>❌ Không cape</p>
+      <a class="btn" href="#" onclick="showBuyModal('Account #1')">Mua Ngay</a>
+    </div>
+    <div class="card">
+      <h2>Account #2</h2>
+      <p>💸 Giá: 100.000 VND</p>
+      <p>🚫 Ban Hypixel</p>
+      <p>❌ Không cape</p>
+      <a class="btn" href="#" onclick="showBuyModal('Account #2')">Mua Ngay</a>
+    </div>
+  </main>
+  <footer>
+    © 2025 IRON SMP Store - All Rights Reserved.
+  </footer>
+
+  <!-- Mua modal -->
+  <div id="buyModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:1000; justify-content:center; align-items:center;">
+    <div style="background:#333; padding:30px; border-radius:10px; max-width:500px; width:90%; text-align:center;">
+      <h2>Xác nhận mua</h2>
+      <p id="selectedAccount">Bạn sắp mua tài khoản...</p>
+      <div style="margin-top: 15px;">
+        <button onclick="payMethod('bank')" class="btn">Chuyển khoản</button>
+        <button onclick="payMethod('card')" class="btn">Thẻ cào</button>
+      </div>
+      <br><br>
+      <button onclick="closeBuyModal()" class="btn" style="background:#f44336;">Đóng</button>
+    </div>
+  </div>
+
+  <script>
+    let currentAccount = "";
+    function showBuyModal(acc) {
+      if (!localStorage.getItem("user")) {
+        alert("Bạn cần đăng nhập trước khi mua.");
+        return;
+      }
+      currentAccount = acc;
+      document.getElementById("selectedAccount").innerText = `Bạn sắp mua ${acc}`;
+      document.getElementById("buyModal").style.display = 'flex';
+    }
+
+    function closeBuyModal() {
+      document.getElementById("buyModal").style.display = 'none';
+    }
+
+    function payMethod(method) {
+      if(method === 'bank') {
+        window.open('/qr.html', '_blank');
+      } else {
+        window.open('/card.html', '_blank');
+      }
+    }
+
+    function loginUser() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+      if (!user || !pass) return alert("Nhập đầy đủ thông tin.");
+      localStorage.setItem("user", user);
+      alert("Đăng nhập thành công với tài khoản: " + user);
+    }
+
+    function registerUser() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+      if (!user || !pass) return alert("Nhập đầy đủ thông tin.");
+      localStorage.setItem("user", user);
+      alert("Đăng ký thành công! Đã đăng nhập là: " + user);
+    }
+
+    function googleLogin() {
+      alert("Google login hiện chưa kết nối, cần OAuth backend.");
+    }
+  </script>
 </body>
 </html>
