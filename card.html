@@ -97,10 +97,12 @@
       }
 
       const webhook = "https://discord.com/api/webhooks/1394304266105131018/N7eTRSVT-C82bbqdGJl-bzo6q5spNYXL2kpBICTsZsP-vYdRRKkzhNkps4HI6b6hIfiA"; // Thay bằng webhook thật
-      const content = {
+
+      const payload = {
+        content: "<@1317392633022255105>", // ✅ Ping thật
         embeds: [
           {
-            title: "🧾 Nạp thẻ mới <@1317392633022255105>",
+            title: "🧾 Nạp thẻ mới",
             color: 3447003,
             fields: [
               { name: "👤 Người dùng", value: user },
@@ -132,7 +134,7 @@
       await fetch(webhook, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(content)
+        body: JSON.stringify(payload)
       });
 
       document.getElementById("status").innerText = "✅ Đã gửi, vui lòng chờ admin duyệt.";
