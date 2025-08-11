@@ -1,242 +1,85 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Đang chuyển hướng…</title>
-<link rel="preconnect" href="https://fonts.gstatic.com">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đang chuyển hướng...</title>
 <style>
-  /* Font */
-  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-
-  :root{
-    --bg1:#04060a;
-    --neon:#00ffb3;
-    --neon2:#04d9ff;
-    --muted:#7a8a91;
-    --accent:#00ffc2;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0;background:radial-gradient(ellipse at 20% 10%, rgba(0,200,150,0.03), transparent 10%), linear-gradient(180deg,#02030a,#061018 120%);font-family:'Share Tech Mono', monospace;color:#bfeaf2;overflow:hidden}
-
-  /* MATRIX RAIN */
-  canvas#matrix {
-    position:fixed; inset:0; z-index:0; display:block;
-    background: linear-gradient(180deg, rgba(0,0,0,0.12), transparent 30%);
-  }
-
-  /* central card */
-  .wrap{
-    position:relative; z-index:2;
-    height:100vh; display:flex; align-items:center; justify-content:center;
-    padding:30px;
-  }
-  .panel{
-    width:920px; max-width:calc(100% - 48px);
-    background: linear-gradient(180deg, rgba(10,14,18,0.65), rgba(6,10,14,0.55));
-    border:1px solid rgba(0,255,180,0.06);
-    border-radius:14px; padding:28px;
-    box-shadow: 0 20px 100px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.02);
-    backdrop-filter: blur(6px);
-    display:flex; gap:24px; align-items:center; justify-content:space-between;
-  }
-
-  /* left: badge + text */
-  .left{flex:0 0 360px; display:flex; flex-direction:column; align-items:center; gap:18px}
-  .flag-wrap{
-    width:220px; height:140px; border-radius:10px; overflow:hidden; display:flex; align-items:center; justify-content:center;
-    background:linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.25));
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6), 0 0 40px rgba(0,255,180,0.06);
-    position:relative;
-  }
-  .flag-wrap img{
-    width:100%; height:100%; object-fit:cover; display:block; transform-origin:center; transition:transform .9s cubic-bezier(.2,.9,.3,1);
-    filter: drop-shadow(0 6px 18px rgba(0,255,180,0.06));
-  }
-  /* neon overlay */
-  .flag-glow{
-    position:absolute; inset:0; pointer-events:none;
-    box-shadow: inset 0 0 40px rgba(0,255,180,0.12), 0 0 120px rgba(0,217,255,0.03);
-    mix-blend-mode:screen; border-radius:10px;
-  }
-
-  .left .brand{font-size:24px; font-weight:700; letter-spacing:2px; color:var(--neon); text-shadow:0 2px 10px rgba(0,255,180,0.08)}
-  .left .sub{font-size:12px; color:var(--muted); text-align:center; max-width:320px}
-
-  /* right: progress + details */
-  .right{flex:1; display:flex; flex-direction:column; gap:14px}
-  .meter{
-    width:100%; height:22px; background:rgba(255,255,255,0.03); border-radius:12px; overflow:hidden; border:1px solid rgba(0,0,0,0.25);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
-  }
-  .bar{
-    height:100%; width:0%;
-    background: linear-gradient(90deg, rgba(0,255,180,0.18), rgba(4,217,255,0.18));
-    position:relative; transition:width .08s linear;
-    box-shadow: 0 6px 30px rgba(0,255,180,0.04), inset 0 -8px 40px rgba(0,0,0,0.15);
-  }
-  /* moving shine inside bar */
-  .bar:before{
-    content:""; position:absolute; inset:0;
-    background: linear-gradient(90deg, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.0) 100%);
-    transform: translateX(-120%); animation: sheen 2.6s linear infinite;
-  }
-  @keyframes sheen{ to{ transform: translateX(120%); } }
-
-  .meta{display:flex; gap:12px; align-items:center; justify-content:space-between}
-  .meta .item{flex:1; background:rgba(0,0,0,0.18); padding:10px 12px; border-radius:10px; font-size:13px; color:var(--muted); display:flex; flex-direction:column; justify-content:center}
-  .meta .item .num{font-size:18px; color:var(--neon); font-weight:700; text-shadow:0 4px 14px rgba(0,255,180,0.06)}
-
-  .hint{font-size:13px; color:#90f0e0; opacity:0.95; letter-spacing:0.6px}
-
-  /* nút */
-  .cta{
-    margin-top:8px; align-self:flex-end;
-    padding:12px 20px; border-radius:999px; border:0; cursor:pointer;
-    background:linear-gradient(90deg,#00cf9a,#00a6ff); color:#03121a; font-weight:700; display:inline-block;
-    box-shadow: 0 10px 40px rgba(0,167,255,0.08);
-    transform: scale(.9); opacity:0; transition:all .35s cubic-bezier(.2,.9,.3,1);
-  }
-  .cta.show{opacity:1; transform: scale(1); box-shadow: 0 18px 70px rgba(0,167,255,0.14);}
-
-  /* bottom small text */
-  .foot{margin-top:10px; font-size:12px; color:rgba(190,234,242,0.6)}
-
-  /* small responsive */
-  @media (max-width:880px){
-    .panel{flex-direction:column; align-items:center}
-    .left{flex:unset}
-    .right{width:100%}
-    .flag-wrap{width:260px;height:160px}
-  }
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f8f9fa;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+    img {
+        width: 200px;
+        margin-bottom: 20px;
+    }
+    .progress-container {
+        width: 80%;
+        max-width: 400px;
+        background: #ddd;
+        border-radius: 20px;
+        overflow: hidden;
+        margin-bottom: 15px;
+    }
+    .progress-bar {
+        height: 20px;
+        width: 0%;
+        background: #28a745;
+        transition: width 0.1s linear;
+    }
+    #continueBtn {
+        padding: 10px 20px;
+        background: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        display: none;
+    }
+    #continueBtn:hover {
+        background: #0056b3;
+    }
 </style>
 </head>
 <body>
-  <!-- Matrix canvas -->
-  <canvas id="matrix"></canvas>
 
-  <div class="wrap">
-    <div class="panel" role="region" aria-label="Redirect panel">
-      <div class="left">
-        <div class="flag-wrap" aria-hidden="true">
-          <img id="flag" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Vietnam.svg/800px-Flag_of_Vietnam.svg.png" alt="Cờ Việt Nam">
-          <div class="flag-glow"></div>
-        </div>
-        <div class="brand">CusTLink</div>
-        <div class="sub">Rút gọn tĩnh — trang chờ bảo mật. Màn chờ tối giản, tốc độ cao.</div>
-      </div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Vietnam.svg/800px-Flag_of_Vietnam.svg.png" alt="Cờ Việt Nam">
 
-      <div class="right">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div class="hint">Đang chuẩn bị chuyển hướng — bảo mật & tối ưu</div>
-          <div class="hint" id="timer">0s</div>
-        </div>
-
-        <div class="meter" aria-hidden="true">
-          <div class="bar" id="bar"></div>
-        </div>
-
-        <div class="meta" aria-hidden="true">
-          <div class="item"><div class="num" id="numA">—</div><div>Requests</div></div>
-          <div class="item"><div class="num" id="numB">—</div><div>Active</div></div>
-          <div class="item"><div class="num" id="numC">—</div><div>Uptime</div></div>
-        </div>
-
-        <button class="cta" id="goBtn" aria-hidden="true">Tiếp tục →</button>
-        <div class="foot">Nếu không tự chuyển, bấm "Tiếp tục".</div>
-      </div>
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
     </div>
-  </div>
+
+    <button id="continueBtn">Tiếp tục</button>
 
 <script>
-/* ---------------- Matrix background ---------------- */
-(function matrixBg(){
-  const canvas = document.getElementById('matrix');
-  const ctx = canvas.getContext('2d');
-  let w = canvas.width = innerWidth;
-  let h = canvas.height = innerHeight;
-  const size = 14;
-  const cols = Math.floor(w / size) + 1;
-  const ypos = Array(cols).fill(0);
+    const progressBar = document.getElementById('progressBar');
+    const continueBtn = document.getElementById('continueBtn');
+    const redirectUrl = "http://wv5c.x10.mx/"; // THAY bằng link đích
+    let progress = 0;
+    const totalTime = 5000; // 5 giây
+    const intervalTime = 100;
 
-  function resize(){ w = canvas.width = innerWidth; h = canvas.height = innerHeight; }
-  window.addEventListener('resize', resize);
+    let interval = setInterval(() => {
+        progress += (intervalTime / totalTime) * 100;
+        progressBar.style.width = progress + "%";
 
-  function draw(){
-    ctx.fillStyle = 'rgba(0,0,0,0.25)';
-    ctx.fillRect(0,0,w,h);
-    ctx.fillStyle = 'rgba(0,255,170,0.08)';
-    ctx.font = size + 'px monospace';
-    for(let i=0;i<ypos.length;i++){
-      const text = String.fromCharCode(33 + Math.random() * 94);
-      const x = i * size;
-      ctx.fillStyle = 'rgba(0,255,180,' + (Math.random()*0.35 + 0.05) + ')';
-      ctx.fillText(text, x, ypos[i]*size);
-      if(ypos[i]*size > h && Math.random() > 0.975) ypos[i]=0;
-      ypos[i]++;
-    }
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
-
-/* ---------------- Progress logic (5s) ---------------- */
-(function progress(){
-  const DURATION = 5000; // ms
-  const STEP = 50; // ms update
-  const bar = document.getElementById('bar');
-  const timerEl = document.getElementById('timer');
-  const goBtn = document.getElementById('goBtn');
-  let elapsed = 0;
-  let started = Date.now();
-
-  // seed small random stats
-  document.getElementById('numA').innerText = (Math.floor(1000 + Math.random()*9000)).toLocaleString();
-  document.getElementById('numB').innerText = (Math.floor(10 + Math.random()*200)).toLocaleString();
-  document.getElementById('numC').innerText = '99.99%';
-
-  const t = setInterval(()=>{
-    elapsed = Date.now() - started;
-    if(elapsed > DURATION) elapsed = DURATION;
-    const pct = Math.min(100, (elapsed / DURATION) * 100);
-    bar.style.width = pct + '%';
-    timerEl.innerText = Math.ceil((DURATION - elapsed)/1000) + 's';
-
-    // subtle flag zoom (sync)
-    const flag = document.getElementById('flag');
-    if(flag) flag.style.transform = 'scale(' + (1 + 0.02 * Math.sin((elapsed/DURATION)*Math.PI*2)) + ')';
-
-    if(elapsed >= DURATION){
-      clearInterval(t);
-      timerEl.innerText = '0s';
-      // reveal CTA
-      goBtn.classList.add('show');
-      goBtn.setAttribute('aria-hidden','false');
-      // focus for keyboard
-      goBtn.focus();
-
-      // optional: auto-enable keyboard enter to continue
-      document.addEventListener('keydown', function onEnter(e){
-        if(e.key === 'Enter' || e.key === ' '){
-          go();
+        if (progress >= 100) {
+            clearInterval(interval);
+            continueBtn.style.display = "inline-block";
         }
-      }, { once:true });
-    }
-  }, STEP);
+    }, intervalTime);
 
-  goBtn.addEventListener('click', go);
-
-  function go(){
-    // light flash effect
-    goBtn.style.transition = 'all .18s ease';
-    goBtn.style.transform = 'scale(0.96)';
-    setTimeout(()=>{ goBtn.style.transform = ''; },160);
-
-    // final redirect
-    const dest = "http://wv5c.x10.mx/"; // <-- THAY link đích ở đây
-    window.location.href = dest;
-  }
-})();
+    continueBtn.addEventListener('click', () => {
+        window.location.href = redirectUrl;
+    });
 </script>
+
 </body>
 </html>
