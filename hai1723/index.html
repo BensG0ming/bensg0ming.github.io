@@ -85,7 +85,9 @@
        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
        user-select: none; /* không cho chọn chữ */
        pointer-events: none; /* không ảnh hưởng khi nhấn chuột */
-       z-index: 9999; /* luôn nổi trên cùng */
+       z-index: 9999;
+       font-weight: bold;
+       text-shadow: 0 0 5px rgba(0,0,0,0.7); /* luôn nổi trên cùng */
    }   
 
     #continueBtn:hover {
@@ -108,7 +110,7 @@
 
     <button id="continueBtn">Tiếp tục</button>
 
-    <div id="footer-credit">By BensG0ming</div>
+    <div id="footer-credit">© By BensG0ming</div>
 
 <script>
     const progressBar = document.getElementById('progressBar');
