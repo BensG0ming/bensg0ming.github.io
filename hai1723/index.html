@@ -80,15 +80,15 @@
        bottom: 10px;
        right: 10px;
        font-size: 14px;
-       color: #fff; /* màu chữ, bạn thay đổi tùy ý */
+       color: #fff; 
        opacity: 0.6;
        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-       user-select: none; /* không cho chọn chữ */
-       pointer-events: none; /* không ảnh hưởng khi nhấn chuột */
+       user-select: none; 
+       pointer-events: none; 
        z-index: 9999;
        font-weight: bold;
        text-shadow: 0 0 5px rgba(0,0,0,0.7);
-       font-size: 16px; /* luôn nổi trên cùng */
+       font-size: 16px; 
    }   
 
     #continueBtn:hover {
@@ -116,9 +116,9 @@
 <script>
     const progressBar = document.getElementById('progressBar');
     const continueBtn = document.getElementById('continueBtn');
-    const redirectUrl = "http://wv5c.x10.mx/"; // THAY thành link đích
+    const redirectUrl = "http://wv5c.x10.mx/";
     let progress = 0;
-    const totalTime = 5000; // 5 giây
+    const totalTime = 5000; 
     const intervalTime = 100;
 
     let interval = setInterval(() => {
