@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CusTLink — Tiny, Custom, Sick</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1:#0f172a; /* navy */
+      --bg2:#061226; /* deep */
+      --accent:#7c5cff; /* purple */
+      --accent2:#00E0B8; /* teal */
+      --glass: rgba(255,255,255,0.06);
+      --glass-2: rgba(255,255,255,0.03);
+      --glass-border: rgba(255,255,255,0.08);
+      --text: #e6eef8;
+      --muted:#9fb0d6;
+      --success:#22c55e;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(124,92,255,0.14), transparent 8%),
+                  radial-gradient(1000px 500px at 90% 90%, rgba(0,224,184,0.08), transparent 12%),
+                  linear-gradient(180deg,var(--bg1),var(--bg2));
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow:hidden;
+    }
+
+    /* animated blobs */
+    .blobs{position:fixed;inset:0;z-index:0;pointer-events:none}
+    .blob{position:absolute;width:480px;height:480px;border-radius:48%;filter:blur(72px);opacity:0.45;mix-blend-mode:screen;transform:translate3d(0,0,0)}
+    .b1{background:linear-gradient(135deg,var(--accent),#ff6b6b);left:-10%;top:-20%;animation:blob1 12s infinite}
+    .b2{background:linear-gradient(135deg,var(--accent2),#46b3ff);right:-12%;bottom:-18%;animation:blob2 14s infinite}
+    .b3{background:linear-gradient(135deg,#ffb86b,var(--accent));left:20%;bottom:10%;animation:blob3 18s infinite}
+    @keyframes blob1{0%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,80px) scale(1.12)}100%{transform:translate(0,0) scale(1)}}
+    @keyframes blob2{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-60px,-30px) scale(0.9)}100%{transform:translate(0,0) scale(1)}}
+    @keyframes blob3{0%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,-60px) scale(1.05)}100%{transform:translate(0,0) scale(1)}}
+
+    /* layout */
+    .wrap{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:48px}
+    .card{width:980px;max-width:calc(100% - 64px);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:18px;padding:28px;border:1px solid var(--glass-border);box-shadow:0 8px 50px rgba(2,6,23,0.6);backdrop-filter: blur(8px);display:grid;grid-template-columns:1fr 420px;gap:22px;overflow:hidden}
+
+    /* left */
+    .hero{padding:18px}
+    .logo{display:flex;gap:14px;align-items:center}
+    .logo .mark{width:54px;height:54px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;box-shadow:0 6px 30px rgba(124,92,255,0.14);font-weight:800}
+    .title{font-size:20px;font-weight:800;margin-top:14px}
+    .sub{color:var(--muted);margin-top:6px}
+
+    .short-form{margin-top:20px;display:flex;gap:12px;align-items:center}
+    .input-wrap{flex:1;background:var(--glass);padding:10px;border-radius:12px;border:1px solid var(--glass-border);display:flex;gap:8px;align-items:center}
+    .input-wrap input{flex:1;background:transparent;border:0;color:var(--text);outline:none;padding:6px 8px;font-size:15px}
+    .alias{width:180px;background:linear-gradient(180deg,rgba(255,255,255,0.015),transparent);padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);font-size:14px;color:var(--muted)}
+
+    .btn{background:linear-gradient(90deg,var(--accent),var(--accent2));padding:12px 18px;border-radius:12px;border:0;color:#041226;font-weight:700;cursor:pointer;box-shadow:0 8px 30px rgba(124,92,255,0.16);transition:transform .18s ease, box-shadow .18s;display:inline-flex;align-items:center;gap:10px}
+    .btn:active{transform:translateY(2px)}
+
+    .examples{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+    .chip{background:var(--glass-2);padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,0.02);font-size:13px;color:var(--muted);cursor:pointer;transform:translateY(0);transition:transform .12s cubic-bezier(.2,.9,.3,1)}
+    .chip:hover{transform:translateY(-6px)}
+
+    /* right column */
+    .panel{padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));border:1px solid rgba(255,255,255,0.03);min-height:220px}
+    .panel h4{margin:0;font-size:13px;color:var(--muted);letter-spacing:0.6px}
+    .result{margin-top:12px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;gap:8px}
+    .link-out{display:flex;align-items:center;gap:10px}
+    .short{font-weight:700;color:#cfe9ff}
+    .copy{margin-left:auto;background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px;border-radius:10px;cursor:pointer}
+
+    .meta{display:flex;gap:10px;margin-top:10px}
+    .meta .stat{flex:1;background:var(--glass-2);padding:10px;border-radius:10px;text-align:center}
+    .stat .num{font-weight:800;font-size:18px}
+    .stat .lbl{font-size:12px;color:var(--muted);margin-top:6px}
+
+    /* footer */
+    .footer{margin-top:18px;color:var(--muted);font-size:13px;display:flex;justify-content:space-between;align-items:center}
+
+    /* fancy neon border */
+    .neon-border{position:relative;padding:2px;border-radius:14px}
+    .neon-border:before{content:'';position:absolute;inset:0;border-radius:12px;padding:1px;background:linear-gradient(90deg, rgba(124,92,255,0.8), rgba(0,224,184,0.6));-webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);pointer-events:none}
+
+    /* microinteractions */
+    .pulse{animation:pulse 2.2s infinite}
+    @keyframes pulse{0%{transform:scale(1);opacity:1}50%{transform:scale(1.02);opacity:0.88}100%{transform:scale(1);opacity:1}}
+
+    /* responsive */
+    @media (max-width:920px){
+      .card{grid-template-columns:1fr;}
+      .panel{order:-1}
+    }
+
+    /* tiny animations for result list */
+    .history{margin-top:12px;display:flex;flex-direction:column;gap:8px;max-height:220px;overflow:auto;padding-right:6px}
+    .history .item{display:flex;gap:10px;align-items:center;padding:10px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.012), transparent);border:1px solid rgba(255,255,255,0.02);animation:slideUp .34s ease}
+    @keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ripple */
+    .ripple{position:relative;overflow:hidden}
+    .ripple:after{content:'';position:absolute;border-radius:50%;transform:scale(0);opacity:0.4;background:rgba(255,255,255,0.12);transition:transform .6s,opacity .8s}
+    .ripple:active:after{transform:scale(6);opacity:0}
+
+    /* cool small helper */
+    .muted{color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="blobs" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+  <div class="wrap">
+    <div class="card neon-border">
+      <div class="hero">
+        <div class="logo">
+          <div class="mark">CT</div>
+          <div>
+            <div class="title">CusTLink <span style="font-weight:600;color:var(--muted);font-size:12px;">— Tiny links. Big flex.</span></div>
+            <div class="sub">Tạo link rút gọn, tuỳ chỉnh alias, share nhanh — giao diện siêu xịn, nhiều animation.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:12px;align-items:center;margin-top:22px">
+          <div class="short-form" style="flex:1">
+            <div class="input-wrap">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="opacity:.9"><path d="M10 14L21 3" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <input id="url" placeholder="Dán link gốc ở đây — https://example.com/..." autocomplete="off">
+            </div>
+            <input id="alias" class="alias" placeholder="alias (tuỳ chọn) — ex: sale2025">
+            <button id="go" class="btn ripple">Generate</button>
+          </div>
+        </div>
+
+        <div class="examples">
+          <div class="chip" data-url="https://bensstore.netlify.app">bensstore.netlify.app</div>
+          <div class="chip" data-url="https://youtube.com/watch?v=dQw4w9WgXcQ">YouTube</div>
+          <div class="chip" data-url="https://roblox.com/games/123456">Roblox</div>
+          <div class="chip" data-url="https://very/long/path/with/query?x=1&y=2">long/path?query</div>
+        </div>
+
+        <div class="footer">
+          <div class="muted">Pro-tip: Để alias trống để hệ thống tự tạo slug ngầu. Dùng alias chỉ chấp nhận ký tự a–z, 0–9, -, _</div>
+          <div class="muted">Built with ❤️ — CusTLink</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h4>Shortened link</h4>
+        <div class="result" id="resultArea">
+          <div class="link-out">
+            <div class="short" id="shortPreview">—</div>
+            <button id="copyBtn" class="copy ripple">Copy</button>
+          </div>
+          <div class="muted" id="origPreview">Original: —</div>
+
+          <div class="meta">
+            <div class="stat">
+              <div class="num" id="countTotal">0</div>
+              <div class="lbl">Total</div>
+            </div>
+            <div class="stat">
+              <div class="num" id="countCustom">0</div>
+              <div class="lbl">Custom</div>
+            </div>
+            <div class="stat">
+              <div class="num" id="countAuto">0</div>
+              <div class="lbl">Auto</div>
+            </div>
+          </div>
+
+          <div class="history" id="history"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // small util: friendly slug generator
+    function makeSlug(input, length = 6){
+      // sanitize allowed characters
+      input = (input||'').toLowerCase().replace(/[^a-z0-9-_]/g,'');
+      if(input.length>0 && input.length<=24) return input.slice(0,24);
+      // fallback: base64 of timestamp+random
+      const s = btoa(Date.now().toString()+Math.random()).replace(/=|\+/g,'').toLowerCase();
+      return s.slice(0,length);
+    }
+
+    // validation
+    function isUrl(s){
+      try{ new URL(s); return true }catch(e){return false}
+    }
+
+    const domain = 'https://bensg0ming.github.io/'; // change when you have real domain
+
+    // store small local history
+    const storeKey = 'custlink_history_v1';
+    function loadHistory(){
+      try{ return JSON.parse(localStorage.getItem(storeKey)||'[]') }catch(e){return[]}
+    }
+    function saveHistory(arr){ localStorage.setItem(storeKey, JSON.stringify(arr)); }
+
+    function renderStats(items){
+      document.getElementById('countTotal').innerText = items.length;
+      const custom = items.filter(i=>i.custom).length;
+      document.getElementById('countCustom').innerText = custom;
+      document.getElementById('countAuto').innerText = items.length - custom;
+    }
+
+    function renderHistory(items){
+      const root = document.getElementById('history'); root.innerHTML='';
+      items.slice().reverse().forEach(it=>{
+        const el = document.createElement('div'); el.className='item';
+        el.innerHTML = `<div style="flex:1;min-width:0"><div style=\"font-weight:700;word-break:break-all\">${it.short}</div><div class=\"muted\" style=\"font-size:12px;\">${it.orig}</div></div><div style=\"text-align:right;display:flex;flex-direction:column;gap:6px\"><button class=\"btn small copyBtn ripple\" data-short=\"${it.short}\">Copy</button><a class=\"muted\" href=\"${it.short}\" target=\"_blank\" rel=\"noopener\">Open</a></div>`;
+        root.appendChild(el);
+      })
+      // attach copy handlers
+      Array.from(document.querySelectorAll('.copyBtn')).forEach(b=>b.addEventListener('click',e=>{
+        navigator.clipboard.writeText(e.currentTarget.dataset.short).then(()=>{
+          e.currentTarget.innerText='Copied!'; setTimeout(()=>e.currentTarget.innerText='Copy',1200);
+        })
+      }))
+    }
+
+    // init
+    const history = loadHistory(); renderStats(history); renderHistory(history);
+
+    document.getElementById('go').addEventListener('click', createShort);
+    document.getElementById('copyBtn').addEventListener('click', ()=>{
+      const txt = document.getElementById('shortPreview').innerText;
+      if(!txt||txt==='—') return; navigator.clipboard.writeText(txt).then(()=>{
+        const b = document.getElementById('copyBtn'); b.innerText='Copied'; setTimeout(()=>b.innerText='Copy',1200);
+      })
+    })
+
+    document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{
+      document.getElementById('url').value = c.dataset.url; document.getElementById('url').focus();
+    }))
+
+    function sanitizeAlias(s){ return (s||'').toLowerCase().replace(/[^a-z0-9-_]/g,'').slice(0,50); }
+
+    function createShort(){
+      const orig = document.getElementById('url').value.trim();
+      const aliasRaw = document.getElementById('alias').value.trim();
+      const alias = sanitizeAlias(aliasRaw);
+      const preview = document.getElementById('shortPreview');
+      const origPreview = document.getElementById('origPreview');
+
+      if(!orig){ shake(document.getElementById('url')); return flash('Please paste a URL'); }
+      if(!isUrl(orig) && !orig.startsWith('www')){ shake(document.getElementById('url')); return flash('Invalid URL'); }
+
+      let short;
+      if(alias){
+        short = domain + alias;
+        // collision simulation: check local history
+        if(history.find(h=>new URL(h.short).pathname===('/'+alias))){ flash('Alias đã có người dùng — thử alias khác'); return shake(document.getElementById('alias')) }
+        history.push({short,orig,custom:true,ts:Date.now()});
+      }else{
+        const slug = makeSlug(orig + Math.random());
+        short = domain + slug;
+        history.push({short,orig,custom:false,ts:Date.now()});
+      }
+
+      // save + render
+      saveHistory(history);
+      renderStats(history); renderHistory(history);
+
+      preview.innerText = short;
+      origPreview.innerText = 'Original: '+orig;
+
+      // micro animation
+      preview.animate([{transform:'translateY(8px)',opacity:.2},{transform:'translateY(0)',opacity:1}],{duration:360,easing:'cubic-bezier(.2,.9,.3,1)'});
+
+      // subtle confetti
+      showConfetti();
+    }
+
+    function shake(el){ el.animate([{transform:'translateX(0)'},{transform:'translateX(-8px)'},{transform:'translateX(8px)'},{transform:'translateX(0)'}],{duration:420}) }
+    function flash(msg){
+      const old = document.title; document.title = msg; setTimeout(()=>document.title = old,1600)
+    }
+
+    // tiny confetti effect using canvas overlay
+    function showConfetti(){
+      const c = document.createElement('canvas'); c.style.position='fixed'; c.style.inset=0; c.style.zIndex=9999; c.style.pointerEvents='none'; document.body.appendChild(c);
+      c.width = innerWidth; c.height = innerHeight; const ctx = c.getContext('2d');
+      const pieces = [];
+      for(let i=0;i<40;i++){ pieces.push({x:Math.random()*c.width,y:-20,vy: (2+Math.random()*4),vx:(-2+Math.random()*4),s:(4+Math.random()*6),rot:Math.random()*360,c: i%2? getRnd(['#7c5cff','#00E0B8','#ffb86b','#46b3ff']):getRnd(['#cfe9ff','#ffe6b3','#ffd1e6']) }) }
+      let t=0; const id = setInterval(()=>{
+        ctx.clearRect(0,0,c.width,c.height);
+        pieces.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.vy+=0.06; ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180); ctx.fillStyle=p.c; ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s); ctx.restore(); });
+        t++; if(t>120){ clearInterval(id); c.remove(); }
+      },16)
+    }
+    function getRnd(a){ return a[Math.floor(Math.random()*a.length)] }
+
+    // basic copy-on-click for preview
+    document.getElementById('shortPreview').addEventListener('click',()=>{
+      const t = document.getElementById('shortPreview').innerText; if(t==='—') return; navigator.clipboard.writeText(t);
+    })
+
+    // small keyboard shortcut
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Enter'){ createShort(); }
+      if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){ e.preventDefault(); document.getElementById('url').focus(); }
+    })
+
+    // polish: make alias input validate live
+    const aliasEl = document.getElementById('alias'); aliasEl.addEventListener('input', ()=>{ aliasEl.value = sanitizeAlias(aliasEl.value); });
+  </script>
+</body>
+</html>
