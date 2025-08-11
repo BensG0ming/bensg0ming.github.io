@@ -75,6 +75,19 @@
         display: none;
         transition: background 0.3s ease;
     }
+    #footer-credit {
+       position: fixed;
+       bottom: 10px;
+       right: 10px;
+       font-size: 14px;
+       color: #fff; /* màu chữ, bạn thay đổi tùy ý */
+       opacity: 0.6;
+       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+       user-select: none; /* không cho chọn chữ */
+       pointer-events: none; /* không ảnh hưởng khi nhấn chuột */
+       z-index: 9999; /* luôn nổi trên cùng */
+   }   
+
     #continueBtn:hover {
         background: #1769aa;
     }
@@ -94,6 +107,8 @@
     <p class="note">Cảm ơn bạn đã kiên nhẫn chờ đợi! 🎉</p>
 
     <button id="continueBtn">Tiếp tục</button>
+
+    <div id="footer-credit">By BensG0ming</div>
 
 <script>
     const progressBar = document.getElementById('progressBar');
